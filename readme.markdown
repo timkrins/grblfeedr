@@ -20,4 +20,4 @@ Author
 Coded by Tim K.
 You can probably tell I don't know what I'm doing ;)
 
-[grbltitle]: grblfeeder.png
+[grbltitle]: https://github.com/timkrins/serialfeeder/blob/master/grblfeeder.png
