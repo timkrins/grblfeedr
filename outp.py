@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Sep 23 16:30:27 2011
+# Created: Fri Sep 23 18:31:21 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(760, 305)
+        MainWindow.resize(730, 350)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -21,11 +21,14 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(300, 300))
         MainWindow.setMouseTracking(True)
         MainWindow.setAcceptDrops(True)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("grblico.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setWindowOpacity(0.95)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.splitter = QtGui.QSplitter(self.centralWidget)
-        self.splitter.setGeometry(QtCore.QRect(10, 10, 481, 251))
+        self.splitter.setGeometry(QtCore.QRect(10, 10, 481, 321))
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
         self.layoutWidget = QtGui.QWidget(self.splitter)
@@ -116,10 +119,13 @@ class Ui_MainWindow(object):
         self.bottomHoriz = QtGui.QHBoxLayout(self.layoutWidget1)
         self.bottomHoriz.setContentsMargins(0, 0, 0, 0)
         self.bottomHoriz.setObjectName("bottomHoriz")
-        self.appTitle = QtGui.QLabel(self.layoutWidget1)
-        self.appTitle.setScaledContents(False)
-        self.appTitle.setObjectName("appTitle")
-        self.bottomHoriz.addWidget(self.appTitle)
+        self.label = QtGui.QLabel(self.layoutWidget1)
+        self.label.setMaximumSize(QtCore.QSize(220, 100))
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap("grblfeeder.png"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        self.bottomHoriz.addWidget(self.label)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.bottomHoriz.addItem(spacerItem)
         self.exitButton = QtGui.QPushButton(self.layoutWidget1)
@@ -129,10 +135,11 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.exitButton.sizePolicy().hasHeightForWidth())
         self.exitButton.setSizePolicy(sizePolicy)
         self.exitButton.setMinimumSize(QtCore.QSize(50, 0))
+        self.exitButton.setMaximumSize(QtCore.QSize(100, 50))
         self.exitButton.setObjectName("exitButton")
         self.bottomHoriz.addWidget(self.exitButton)
         self.textEdit = QtGui.QTextEdit(self.centralWidget)
-        self.textEdit.setGeometry(QtCore.QRect(500, 10, 251, 211))
+        self.textEdit.setGeometry(QtCore.QRect(500, 10, 251, 281))
         self.textEdit.setProperty("cursor", QtCore.Qt.ArrowCursor)
         self.textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -140,8 +147,8 @@ class Ui_MainWindow(object):
         self.textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.textEdit.setObjectName("textEdit")
         self.currentProgress = QtGui.QProgressBar(self.centralWidget)
-        self.currentProgress.setGeometry(QtCore.QRect(500, 230, 251, 31))
-        self.currentProgress.setProperty("value", 24)
+        self.currentProgress.setGeometry(QtCore.QRect(500, 300, 251, 31))
+        self.currentProgress.setProperty("value", 0)
         self.currentProgress.setAlignment(QtCore.Qt.AlignCenter)
         self.currentProgress.setOrientation(QtCore.Qt.Horizontal)
         self.currentProgress.setObjectName("currentProgress")
@@ -154,9 +161,6 @@ class Ui_MainWindow(object):
         self.menuAbout = QtGui.QMenu(self.menuBar)
         self.menuAbout.setObjectName("menuAbout")
         MainWindow.setMenuBar(self.menuBar)
-        self.statusBar = QtGui.QStatusBar(MainWindow)
-        self.statusBar.setObjectName("statusBar")
-        MainWindow.setStatusBar(self.statusBar)
         self.actionLoad_GCode = QtGui.QAction(MainWindow)
         self.actionLoad_GCode.setObjectName("actionLoad_GCode")
         self.actionExit = QtGui.QAction(MainWindow)
@@ -180,7 +184,7 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Terminal_Hex\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Testing</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">termWindow</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.loadButton.setText(QtGui.QApplication.translate("MainWindow", "Load File", None, QtGui.QApplication.UnicodeUTF8))
         self.sendOne.setText(QtGui.QApplication.translate("MainWindow", "Send One Line", None, QtGui.QApplication.UnicodeUTF8))
         self.sendCont.setText(QtGui.QApplication.translate("MainWindow", "Send Continous", None, QtGui.QApplication.UnicodeUTF8))
@@ -188,11 +192,6 @@ class Ui_MainWindow(object):
         self.clearButton.setText(QtGui.QApplication.translate("MainWindow", "Clear Queue", None, QtGui.QApplication.UnicodeUTF8))
         self.clearTerm.setText(QtGui.QApplication.translate("MainWindow", "Clear Terminal", None, QtGui.QApplication.UnicodeUTF8))
         self.termLine.setText(QtGui.QApplication.translate("MainWindow", "Enter Command", None, QtGui.QApplication.UnicodeUTF8))
-        self.appTitle.setText(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; vertical-align:super;\">qt</span><span style=\" font-size:22pt;\">SerialFeeder</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.exitButton.setText(QtGui.QApplication.translate("MainWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.currentProgress.setFormat(QtGui.QApplication.translate("MainWindow", "Queue Progress: %p%", None, QtGui.QApplication.UnicodeUTF8))
         self.menuQt.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))

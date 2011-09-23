@@ -2,7 +2,6 @@ import sys, time, serial
 from PySide import QtCore, QtGui
 
 from outp import Ui_MainWindow
-from gcodeformat import GForm
 
 class Worker(QtCore.QThread):
     def __init__(self, parent = None):
@@ -15,6 +14,10 @@ class Worker(QtCore.QThread):
             if(oksig[0] == True):
                 oksig[0] = False
                 self.emit(QtCore.SIGNAL("doney()"))
+                
+    def __del__(self, parent=None):
+        self.exiting = True
+        self.wait()
             
 class SerialProcessor(QtCore.QThread):
     def __init__(self, parent = None):
@@ -47,18 +50,29 @@ class SerialProcessor(QtCore.QThread):
         while not self.exiting:
             time.sleep(0.01)
             a += 1
-            if(True):
+            if(not self.exiting):
                 #print("processing chunk serial "+repr(a))
                 self.processchunk(currentline)
-                chunked = ser.readline()
-                if(chunked):
-                    currentline.extend(list(chunked.decode('utf-8')))
-            
+                try:
+                    chunked = ser.readline()
+                    if(chunked):
+                        currentline.extend(list(chunked.decode('utf-8')))
+                except:
+                    print('this is a strange error, possibly caused by the serial being deleted before the thread')
+                    
+    def __del__(self, parent=None):
+        self.exiting = True
+        self.wait()
+        
 class SetUp(Ui_MainWindow):
 
     def __init__(self, parent=None):
         Ui_MainWindow.__init__(self)
-        
+ 
+    def centerOnScreen (self, parent=None):
+        res = QtGui.QDesktopWidget().screenGeometry()
+        parent.move((res.width() / 2) - (parent.frameSize().width() / 2), (res.height() / 2) - (parent.frameSize().height() / 2))
+
     def setupDefaults(self, parent=None):
         self.termLine.setCursorPosition(2)
         self.currentProgress.setValue(0)
@@ -67,7 +81,13 @@ class SetUp(Ui_MainWindow):
         self.clearButton.setDisabled(True)
         self.sendOne.setDisabled(True)
         self.sendCont.setDisabled(True)
-        parent.resize(500, 305)
+        self.origwid = parent.size().width()
+        self.orighit = parent.size().height()
+        self.label.setPixmap(QtGui.QPixmap("grblfeeder.png"))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("grblico.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+
+        parent.resize(500, self.orighit)
         self.termWindow.setHtml("")
         self.serialThread = SerialProcessor()
         self.serialThread.start()
@@ -83,21 +103,24 @@ class SetUp(Ui_MainWindow):
         self.termLine.clear()
 
     def openFile(self, parent=None):
-        fileName = QtGui.QFileDialog.getOpenFileName(None, u"Select G-Code to send to CNC",u"",u"GCode Files (*.nc *.gc);;All Files (*.*)")
-        fLoad = open(fileName[0],'r')
-        del(contents[:])
-        del(formattedcontents[:])
-        self.clearButton.setDisabled(False)
-        self.sendOne.setDisabled(False)
-        self.sendCont.setDisabled(False)
-        outerdisplay.resize(760, 305)
-        for line in fLoad:
-            contents.append(line)
-            lined = line+"<br>"
-            formattedcontents.append(lined)
-        fLoad.close()
-        self.origlength = len(contents)
-        self.regenContentWindow()
+        try:
+            fileName = QtGui.QFileDialog.getOpenFileName(None, u"Select G-Code to send to CNC",u"",u"GCode Files (*.nc *.gc);;All Files (*.*)")
+            fLoad = open(fileName[0],'r')
+            del(contents[:])
+            del(formattedcontents[:])
+            self.clearButton.setDisabled(False)
+            self.sendOne.setDisabled(False)
+            self.sendCont.setDisabled(False)
+            outerdisplay.resize(760, self.orighit)
+            for line in fLoad:
+                contents.append(line)
+                lined = line+"<br>"
+                formattedcontents.append(lined)
+            fLoad.close()
+            self.origlength = len(contents)
+            self.regenContentWindow()
+        except:
+            print('file not opened correctly')
         
     def click_sendOne(self, parent=None):
         currentliner = contents.pop(0)
@@ -207,7 +230,6 @@ continueRunning = []
 oksig = [1]
 origlength = 0
 currentline = [0]
-Formatter = GForm()
 ser = serial.Serial('COM10',9600,8,'N',1,0.01)
 app = QtGui.QApplication(sys.argv)
 outerdisplay = QtGui.QMainWindow()
@@ -215,6 +237,7 @@ window = SetUp(app)
 window.setupUi(outerdisplay)
 window.setupDefaults(outerdisplay)
 window.setupSlots(outerdisplay)
-
+window.centerOnScreen(outerdisplay)
 outerdisplay.show()
-sys.exit(app.exec_())
+app.exec_()
+#sys.exit()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>760</width>
-    <height>305</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>qtSerialFeeder</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Desktop/git/serialfeeder/grblico.png</normaloff>../Desktop/git/serialfeeder/grblico.png</iconset>
+  </property>
   <property name="windowOpacity">
    <double>0.950000000000000</double>
   </property>
@@ -41,7 +45,7 @@
       <x>10</x>
       <y>10</y>
       <width>481</width>
-      <height>251</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="orientation">
@@ -152,7 +156,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Terminal_Hex'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Testing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;termWindow&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textInteractionFlags">
          <set>Qt::NoTextInteraction</set>
@@ -257,16 +261,21 @@ p, li { white-space: pre-wrap; }
     <widget class="QWidget" name="layoutWidget">
      <layout class="QHBoxLayout" name="bottomHoriz">
       <item>
-       <widget class="QLabel" name="appTitle">
+       <widget class="QLabel" name="label">
+        <property name="maximumSize">
+         <size>
+          <width>220</width>
+          <height>100</height>
+         </size>
+        </property>
         <property name="text">
-         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:22pt; vertical-align:super;&quot;&gt;qt&lt;/span&gt;&lt;span style=&quot; font-size:22pt;&quot;&gt;SerialFeeder&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>../Desktop/git/serialfeeder/grblfeeder.png</pixmap>
         </property>
         <property name="scaledContents">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -297,6 +306,12 @@ p, li { white-space: pre-wrap; }
           <height>0</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>50</height>
+         </size>
+        </property>
         <property name="text">
          <string>Exit</string>
         </property>
@@ -311,7 +326,7 @@ p, li { white-space: pre-wrap; }
       <x>500</x>
       <y>10</y>
       <width>251</width>
-      <height>211</height>
+      <height>281</height>
      </rect>
     </property>
     <property name="cursor" stdset="0">
@@ -334,13 +349,13 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>500</x>
-      <y>230</y>
+      <y>300</y>
       <width>251</width>
       <height>31</height>
      </rect>
     </property>
     <property name="value">
-     <number>24</number>
+     <number>0</number>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
