@@ -15,19 +15,11 @@ class Worker(QtCore.QThread):
             if(oksig[0] == True):
                 oksig[0] = False
                 self.emit(QtCore.SIGNAL("doney()"))
-                
-    def __del__(self, parent=None):
-        self.exiting = True
-        self.wait()
             
 class SerialProcessor(QtCore.QThread):
     def __init__(self, parent = None):
         QtCore.QThread.__init__(self, parent)
         self.exiting = False
-        
-    def __del__(self, parent=None):
-        self.exiting = True
-        self.wait()
         
     def processchunk(self, currentline):
         popped = []
@@ -50,7 +42,7 @@ class SerialProcessor(QtCore.QThread):
     
     def run(self):
         a = 0
-        parent.ser.flushInput()
+        ser.flushInput()
         currentline = []
         while not self.exiting:
             time.sleep(0.01)
@@ -113,7 +105,11 @@ class SetUp(Ui_MainWindow):
         currentline[0] += 1.0
         self.regenContentWindow()
         termWindowList.append("<font color=red>"+currentliner+"</font>")
-        ser.write((currentliner).encode('utf-8'))
+        ser.writeTimeout = 0.5
+        try:
+            ser.write((currentliner).encode('utf-8'))
+        except:
+            termWindowList.append("<font color=yellow>"+"Message was not sent, timeout error."+"</font>")
         self.regenTerminalWindow()
         
     def click_sendCont(self, parent=None):
@@ -163,10 +159,7 @@ class SetUp(Ui_MainWindow):
         self.senderThread.terminate()
         
     def exitAll(self, parent=None):
-            if(self.senderThread.exiting == False):
-                self.senderThread.terminate()
-            if(self.serialThread.exiting == False):
-                self.serialThread.terminate()
+            pass
             sys.exit()
 
     def click_actionConnect(self, parent=None):
@@ -207,15 +200,6 @@ class SetUp(Ui_MainWindow):
         QtCore.QObject.connect(self.serialThread, QtCore.SIGNAL("terminated()"), self.term_serialThread)
         QtCore.QObject.connect(self.serialThread, QtCore.SIGNAL("regen()"), self.regenTerminalWindow)
 
-
-#actionLoad_GCode
-#QLineEdit.focusInEvent (self, QFocusEvent)
-
-#def main():
-
-
-
-
 contents = []
 termWindowList =  []
 formattedcontents = []
@@ -224,17 +208,13 @@ oksig = [1]
 origlength = 0
 currentline = [0]
 Formatter = GForm()
-
 ser = serial.Serial('COM10',9600,8,'N',1,0.01)
-
 app = QtGui.QApplication(sys.argv)
 outerdisplay = QtGui.QMainWindow()
 window = SetUp(app)
 window.setupUi(outerdisplay)
 window.setupDefaults(outerdisplay)
 window.setupSlots(outerdisplay)
+
 outerdisplay.show()
 sys.exit(app.exec_())
-    
-#if __name__ == '__main__':
-#    main()
