@@ -33,19 +33,20 @@ class SerialProcessor(QtCore.QThread):
             if(popped):
                 popped.pop()
                 if(len(popped) > 1):
-                    if("".join(popped) == "ok"):
+                    popnstrip = "".join(popped).strip()
+                    if(popnstrip == "ok"):
                         oksig[0] = True
                         #print("got okay!")
-                        termWindowList.append("<font color=lime><i>["+("".join(popped))+"]</i></font>")
+                        termWindowList.append("<font color=lime><i>["+(popnstrip)+"]</i></font>")
                     else:
-                        termWindowList.append("<font color=yellow>["+("".join(popped))+"]</font>")
+                        termWindowList.append("<font color=yellow>["+(popnstrip)+"]</font>")
                     self.emit(QtCore.SIGNAL("regen()"))    
                 popped = []
         return ""
     
     def run(self):
         a = 0
-        ser.flushInput()
+        window.ser.flushInput()
         currentline = []
         while not self.exiting:
             time.sleep(0.01)
@@ -54,7 +55,7 @@ class SerialProcessor(QtCore.QThread):
                 #print("processing chunk serial "+repr(a))
                 self.processchunk(currentline)
                 try:
-                    chunked = ser.readline()
+                    chunked = window.ser.readline()
                     if(chunked):
                         currentline.extend(list(chunked.decode('utf-8')))
                 except:
@@ -84,13 +85,16 @@ class SetUp(Ui_MainWindow):
         self.origwid = parent.size().width()
         self.orighit = parent.size().height()
         self.label.setPixmap(QtGui.QPixmap("grblfeeder.png"))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("grblico.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-
-        parent.resize(500, self.orighit)
+        self.label_2.setPixmap(QtGui.QPixmap("grblfeeder.png"))
+        self.comboBox.addItems(self.com_scan())
+        self.comboBox_2.setEditable(False)
+        self.comboBox_2.addItems(["600", "1200", "1800", "2400", "4800", "9600", "19200", "38400", "57600", "115200"])
+        self.comboBox_2.setCurrentIndex(5)
+        self.tab.setDisabled(True)
+        self.icon = QtGui.QIcon()
+        self.icon.addPixmap(QtGui.QPixmap("grblico.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.termWindow.setHtml("")
         self.serialThread = SerialProcessor()
-        self.serialThread.start()
         
     def clearInput(self, parent=None):
         if(self.termLine.text() == "Enter Command"):
@@ -98,7 +102,11 @@ class SetUp(Ui_MainWindow):
             
     def hitEnter(self, parent=None):
         termWindowList.append("<font color=lime>"+self.termLine.text()+"</font>")
-        ser.write((self.termLine.text()+"\n").encode('utf-8'))
+        window.ser.writeTimeout = 0.5
+        try:
+            window.ser.write((self.termLine.text()+"\n").encode('utf-8'))
+        except:
+            termWindowList.append("<font color=yellow>"+"Message was not sent, timeout error."+"</font>")
         self.regenTerminalWindow()
         self.termLine.clear()
 
@@ -111,7 +119,7 @@ class SetUp(Ui_MainWindow):
             self.clearButton.setDisabled(False)
             self.sendOne.setDisabled(False)
             self.sendCont.setDisabled(False)
-            outerdisplay.resize(760, self.orighit)
+            #outerdisplay.resize(760, self.orighit)
             for line in fLoad:
                 contents.append(line)
                 lined = line+"<br>"
@@ -128,20 +136,26 @@ class SetUp(Ui_MainWindow):
         currentline[0] += 1.0
         self.regenContentWindow()
         termWindowList.append("<font color=red>"+currentliner+"</font>")
-        ser.writeTimeout = 0.5
+        window.ser.writeTimeout = 0.5
         try:
-            ser.write((currentliner).encode('utf-8'))
+            window.ser.write((currentliner).encode('utf-8'))
         except:
             termWindowList.append("<font color=yellow>"+"Message was not sent, timeout error."+"</font>")
         self.regenTerminalWindow()
         
     def click_sendCont(self, parent=None):
-        self.senderThread.start()
-        self.sendStop.setDisabled(False)
-        self.sendCont.setDisabled(True)
-        self.sendOne.setDisabled(False)
-        self.loadButton.setDisabled(True)
-        
+        try:
+            if(window.ser):
+                self.senderThread.start()
+                self.sendStop.setDisabled(False)
+                self.sendCont.setDisabled(True)
+                self.sendOne.setDisabled(False)
+                self.loadButton.setDisabled(True)
+            else:
+                self.tabWidget.setCurrentIndex(0)
+        except:
+            self.tabWidget.setCurrentIndex(0)
+            
     def com_threadSender(self, parent=None):
         try:
             currentliner = contents.pop(0)
@@ -149,7 +163,13 @@ class SetUp(Ui_MainWindow):
             currentline[0] += 1.0
             self.regenContentWindow()
             termWindowList.append("<font color=blue>"+currentliner+"</font>")
-            ser.write(currentliner.encode('utf-8'))
+            window.ser.writeTimeout = 0.5
+            try:
+                window.ser.write(currentliner.encode('utf-8'))
+            except:
+                termWindowList.append("<font color=yellow>"+"Message was not sent, timeout error."+"</font>")
+                #self.click_sendStop()
+                
             self.regenTerminalWindow()
         except:
             self.senderThread.terminate()
@@ -208,6 +228,7 @@ class SetUp(Ui_MainWindow):
 
     def setupSlots(self, parent=None):
         QtCore.QObject.connect(self.exitButton, QtCore.SIGNAL("clicked()"), self.exitAll)
+        QtCore.QObject.connect(self.exitButton2, QtCore.SIGNAL("clicked()"), self.exitAll)
         QtCore.QObject.connect(self.loadButton, QtCore.SIGNAL("clicked()"), self.openFile)
         QtCore.QObject.connect(self.actionLoad_GCode, QtCore.SIGNAL("activated()"), self.openFile)
         QtCore.QObject.connect(self.sendOne, QtCore.SIGNAL("clicked()"), self.click_sendOne)
@@ -222,6 +243,50 @@ class SetUp(Ui_MainWindow):
         QtCore.QObject.connect(self.actionConnect, QtCore.SIGNAL("activated()"), self.click_actionConnect)
         QtCore.QObject.connect(self.serialThread, QtCore.SIGNAL("terminated()"), self.term_serialThread)
         QtCore.QObject.connect(self.serialThread, QtCore.SIGNAL("regen()"), self.regenTerminalWindow)
+        QtCore.QObject.connect(self.connectButton, QtCore.SIGNAL("clicked()"), self.click_connectButton) 
+        QtCore.QObject.connect(self.disconnectButton, QtCore.SIGNAL("clicked()"), self.click_disconnectButton) 
+        QtCore.QObject.connect(self.nextScreen, QtCore.SIGNAL("clicked()"), self.click_nextScreen) 
+        
+    def com_scan(self):
+        coms = []
+        for porty in range(256):
+            try:
+                s = serial.Serial(porty)
+                coms.append( str(s.portstr))
+                s.close()
+            except serial.SerialException:
+                pass
+        return coms    
+         
+    def click_connectButton(self, parent=None):
+        try:
+            self.ser = serial.Serial(port=self.comboBox.currentText(), baudrate=self.comboBox_2.currentText())
+            self.connectButton.setText("Connected.")
+            self.connectButton.setDisabled(True)
+            self.disconnectButton.setDisabled(False)
+            self.comboBox.setDisabled(True)
+            self.comboBox_2.setDisabled(True)
+            self.tab.setDisabled(False)
+            self.serialThread.start()
+        except:
+            print('error connecting')
+            
+    def click_disconnectButton(self, parent=None):
+        try:
+            self.serialThread.terminate()
+            self.ser.close()
+            self.connectButton.setText("Connect")
+            self.connectButton.setDisabled(False)
+            self.comboBox.setDisabled(False)
+            self.comboBox_2.setDisabled(False)
+            self.tab.setDisabled(True)
+            self.disconnectButton.setDisabled(True)
+            
+        except:
+            print('error disconnecting')
+            
+    def click_nextScreen(self, parent=None):
+        self.tabWidget.setCurrentIndex(1)
 
 contents = []
 termWindowList =  []
@@ -230,7 +295,9 @@ continueRunning = []
 oksig = [1]
 origlength = 0
 currentline = [0]
-ser = serial.Serial('COM10',9600,8,'N',1,0.01)
+
+# my objects are all over the place - I never actually bothered to sketch out their relationships...
+
 app = QtGui.QApplication(sys.argv)
 outerdisplay = QtGui.QMainWindow()
 window = SetUp(app)
