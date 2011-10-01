@@ -1,4 +1,4 @@
-import sys, time, serial
+import sys, time, serial, os
 from PySide import QtCore, QtGui
 
 from outp import Ui_MainWindow
