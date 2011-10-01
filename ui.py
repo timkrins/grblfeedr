@@ -246,10 +246,20 @@ class SetUp(Ui_MainWindow):
         QtCore.QObject.connect(self.connectButton, QtCore.SIGNAL("clicked()"), self.click_connectButton) 
         QtCore.QObject.connect(self.disconnectButton, QtCore.SIGNAL("clicked()"), self.click_disconnectButton) 
         QtCore.QObject.connect(self.nextScreen, QtCore.SIGNAL("clicked()"), self.click_nextScreen) 
+    
+    def buildlist_incmac(self):
+        if(sys.platform == "darwin"):
+            devs = os.listdir("/dev/")
+            devs = [filename for filename in devs if filename[0] == 'c']
+            devs = [filename for filename in devs if filename[1] == 'u']
+            devs = ["/dev/"+filename for filename in devs]
+            return devs
+        else:
+            return range(256)
         
     def com_scan(self):
         coms = []
-        for porty in range(256):
+        for porty in self.buildlist_incmac():
             try:
                 s = serial.Serial(porty)
                 coms.append( str(s.portstr))
