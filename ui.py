@@ -112,7 +112,7 @@ class SetUp(Ui_MainWindow):
 
     def openFile(self, parent=None):
         try:
-            fileName = QtGui.QFileDialog.getOpenFileName(None, u"Select G-Code to send to CNC",u"",u"GCode Files (*.nc *.gc);;All Files (*.*)")
+            fileName = QtGui.QFileDialog.getOpenFileName(None, u"Select G-Code to send to CNC",u"",u"GCode Files (*.nc *.gc *.ngc);;All Files (*.*)")
             fLoad = open(fileName[0],'r')
             del(contents[:])
             del(formattedcontents[:])
