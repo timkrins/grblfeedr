@@ -33,7 +33,7 @@ To use under Mac OS, make sure you have these installed:
 
   Python           (2.7 testing...)
   PySide for Mac   (1.0.6 testing...)
-  PySerial Source  (2.5 testing...) [run 'python setup.py install']
+  PySerial Source  (2.5 testing...)
 	
 ### Usage ###
 
