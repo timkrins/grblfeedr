@@ -17,29 +17,30 @@ Clicking 'Send Continuous' sends a line, waits for an 'ok', and repeats till the
 
 To use under Windows, make sure you have these installed:
 
-	Python 		(2.7.2 tested)
-	PySide 		(1.0.6 tested)
-	PySerial 	(2.5 tested)
+    Python 		(2.7.2 tested)
+    PySide 		(1.0.6 tested)
+    PySerial 	(2.5 tested)
 
-To use under Linux (linuxmint/ubuntu lucid testing...):
+To use under Linux (linuxmint/ubuntu lucid to be tested):
 
-	sudo add-apt-repository ppa:pyside
-	sudo apt-get update
-	sudo apt-get install python
-	sudo apt-get install python-serial
-	sudo apt-get install python-pyside
+    sudo add-apt-repository ppa:pyside
+    sudo apt-get update
+    sudo apt-get install python
+    sudo apt-get install python-serial
+    sudo apt-get install python-pyside
 	
 To use under Mac OS, make sure you have these installed:
 
-  Python           (2.7 testing...)
-  PySide for Mac   (1.0.6 testing...)
-  PySerial Source  (2.5 testing...)
+    Python               (2.7 to be tested)
+    PySide for Mac       (1.0.6 to be tested)
+    Qt Libraries for Mac (4.7.4 to be tested)
+    PySerial             (2.5 to be tested)
 	
 ### Usage ###
 
 To run grblfeeder, use:
 
-python grblfeedr.py
+    python grblfeedr.py
 
 ### Author ###
 
