@@ -1,2 +1,2 @@
 outp.py : mainwindow.ui
-	python _pyuic.py mainwindow.ui -o outp.py
+	python _pyuic.py mainwindow.ui -o grblfeedr_ui.py

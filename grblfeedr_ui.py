@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sat Sep 24 23:40:46 2011
+# Created: Sun Oct 02 23:49:05 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(760, 359)
+        MainWindow.resize(778, 392)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -26,12 +26,12 @@ class Ui_MainWindow(object):
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.tabWidget = QtGui.QTabWidget(self.centralWidget)
-        self.tabWidget.setGeometry(QtCore.QRect(3, 3, 750, 331))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 761, 351))
         self.tabWidget.setObjectName("tabWidget")
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.verticalLayoutWidget = QtGui.QWidget(self.tab_2)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 411, 291))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 411, 301))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -50,6 +50,8 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
         self.comboBox = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.comboBox.setMinimumSize(QtCore.QSize(180, 0))
+        self.comboBox.setMaximumSize(QtCore.QSize(180, 16777215))
         self.comboBox.setSizeAdjustPolicy(QtGui.QComboBox.AdjustToContents)
         self.comboBox.setObjectName("comboBox")
         self.horizontalLayout.addWidget(self.comboBox)
@@ -61,6 +63,8 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_2.addWidget(self.label_4)
         self.comboBox_2 = QtGui.QComboBox(self.verticalLayoutWidget)
+        self.comboBox_2.setMinimumSize(QtCore.QSize(180, 0))
+        self.comboBox_2.setMaximumSize(QtCore.QSize(180, 16777215))
         self.comboBox_2.setEditable(False)
         self.comboBox_2.setSizeAdjustPolicy(QtGui.QComboBox.AdjustToContents)
         self.comboBox_2.setObjectName("comboBox_2")
@@ -75,7 +79,7 @@ class Ui_MainWindow(object):
         self.disconnectButton = QtGui.QPushButton(self.verticalLayoutWidget)
         self.disconnectButton.setEnabled(False)
         self.disconnectButton.setMinimumSize(QtCore.QSize(0, 40))
-        self.disconnectButton.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.disconnectButton.setMaximumSize(QtCore.QSize(130, 16777215))
         self.disconnectButton.setObjectName("disconnectButton")
         self.horizontalLayout_4.addWidget(self.disconnectButton)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
@@ -89,13 +93,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.exitButton2)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.label_5 = QtGui.QLabel(self.tab_2)
-        self.label_5.setGeometry(QtCore.QRect(440, 10, 301, 281))
+        self.label_5.setGeometry(QtCore.QRect(440, 20, 301, 281))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.tabWidget.addTab(self.tab_2, "")
         self.tab = QtGui.QWidget()
         self.tab.setObjectName("tab")
         self.splitter = QtGui.QSplitter(self.tab)
-        self.splitter.setGeometry(QtCore.QRect(0, 0, 481, 310))
+        self.splitter.setGeometry(QtCore.QRect(5, 6, 481, 310))
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
         self.layout2 = QtGui.QWidget(self.splitter)
@@ -142,7 +150,7 @@ class Ui_MainWindow(object):
         self.termWindow.setObjectName("termWindow")
         self.topHoriz.addWidget(self.termWindow)
         self.controlVert = QtGui.QVBoxLayout()
-        self.controlVert.setSpacing(3)
+        self.controlVert.setSpacing(5)
         self.controlVert.setObjectName("controlVert")
         self.loadButton = QtGui.QPushButton(self.layout2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -208,7 +216,7 @@ class Ui_MainWindow(object):
         self.exitButton.setObjectName("exitButton")
         self.bottomHoriz.addWidget(self.exitButton)
         self.textEdit = QtGui.QTextEdit(self.tab)
-        self.textEdit.setGeometry(QtCore.QRect(490, 4, 250, 261))
+        self.textEdit.setGeometry(QtCore.QRect(495, 4, 250, 271))
         self.textEdit.setProperty("cursor", QtCore.Qt.ArrowCursor)
         self.textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -216,7 +224,7 @@ class Ui_MainWindow(object):
         self.textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.textEdit.setObjectName("textEdit")
         self.currentProgress = QtGui.QProgressBar(self.tab)
-        self.currentProgress.setGeometry(QtCore.QRect(490, 270, 251, 31))
+        self.currentProgress.setGeometry(QtCore.QRect(495, 285, 251, 31))
         self.currentProgress.setProperty("value", 0)
         self.currentProgress.setAlignment(QtCore.Qt.AlignCenter)
         self.currentProgress.setOrientation(QtCore.Qt.Horizontal)
@@ -224,14 +232,13 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 760, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 778, 21))
         self.menuBar.setObjectName("menuBar")
         self.menuQt = QtGui.QMenu(self.menuBar)
         self.menuQt.setObjectName("menuQt")
-        self.menuAbout = QtGui.QMenu(self.menuBar)
-        self.menuAbout.setObjectName("menuAbout")
         MainWindow.setMenuBar(self.menuBar)
         self.actionLoad_GCode = QtGui.QAction(MainWindow)
+        self.actionLoad_GCode.setEnabled(False)
         self.actionLoad_GCode.setObjectName("actionLoad_GCode")
         self.actionExit = QtGui.QAction(MainWindow)
         self.actionExit.setObjectName("actionExit")
@@ -241,7 +248,6 @@ class Ui_MainWindow(object):
         self.menuQt.addAction(self.actionLoad_GCode)
         self.menuQt.addAction(self.actionExit)
         self.menuBar.addAction(self.menuQt.menuAction())
-        self.menuBar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -260,13 +266,13 @@ class Ui_MainWindow(object):
         self.label_5.setText(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">grblfeeder</span><span style=\" font-size:12pt;\">, a GUI serial terminal for</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">sending commands to </span><span style=\" font-size:12pt; font-weight:600;\">GRBL</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Uses </span><span style=\" font-size:12pt; font-weight:600;\">Python</span><span style=\" font-size:12pt;\">, </span><span style=\" font-size:12pt; font-weight:600;\">PySide</span><span style=\" font-size:12pt;\">, </span><span style=\" font-size:12pt; font-weight:600;\">Qt</span><span style=\" font-size:12pt;\">, and </span><span style=\" font-size:12pt; font-weight:600;\">PySerial</span><span style=\" font-size:12pt;\">.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Comments to </span><span style=\" font-size:12pt; font-weight:600;\">timkrins@gmail.com</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+"</style></head><body style=\" font-family:\'Arial\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">grblfeeder</span><span style=\" font-family:\'sans-serif\'; font-size:11pt;\">, a GUI serial terminal for</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">sending commands to </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">GRBL</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:11pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">Uses </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">Python</span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">, </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">PySide</span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">, </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">Qt</span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">, and </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">PySerial</span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:11pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt;\">Comments to </span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:11pt; font-weight:600;\">timkrins@gmail.com</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.termWindow.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -284,7 +290,6 @@ class Ui_MainWindow(object):
         self.currentProgress.setFormat(QtGui.QApplication.translate("MainWindow", "Queue Progress: %p%", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Feeder", None, QtGui.QApplication.UnicodeUTF8))
         self.menuQt.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuAbout.setTitle(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLoad_GCode.setText(QtGui.QApplication.translate("MainWindow", "Load GCode", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConnect.setText(QtGui.QApplication.translate("MainWindow", "Connect", None, QtGui.QApplication.UnicodeUTF8))
