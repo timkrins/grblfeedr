@@ -9,6 +9,7 @@
        incorporate nc code formatting (inches to mm conversion, etc)
        [create immediate stop button in firmware]
        buffer size indicator? might not be possible or useful
+       just a note: M codes are recieved and actioned immediately, this could be bad
 '''
 
 import sys
@@ -88,7 +89,7 @@ class GrblForm(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QMainWindow.__init__(self, parent)
         
-        # Variables that will need to be accessed later.
+        ''' Variables that will need to be accessed later. '''
         self.file_contents = []
         self.formatted_file_contents = []
         self.termwindow_contents = []
@@ -96,23 +97,25 @@ class GrblForm(QtGui.QMainWindow):
         self.file_length = 0.00
         self.file_currentline = 0.00
         
-        # Set up user interface.
+        ''' Set up user interface. '''
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.directory = sys.path[0]+os.sep
         self.setupScreen(self.ui)
         
-        # Set up threads.
+        ''' Set up threads. '''
         self.thread_sender = MultiSender(self)
         self.thread_sender.start()
         self.thread_processor = SerialProcessor(self)
         self.thread_processor.start()
         
-        # Set up signals.
+        ''' Set up signals. '''
         self.ui.actionConnect.triggered.connect(self.click_connectButton)
         self.ui.actionLoad_GCode.triggered.connect(self.openFile)
         self.ui.exitButton.clicked.connect(self.close)
         self.ui.exitButton2.clicked.connect(self.close)
+        self.ui.exitButton3.clicked.connect(self.close)
+        self.ui.exitButton4.clicked.connect(self.close)
         self.ui.loadButton.clicked.connect(self.openFile)
         self.ui.sendOne.clicked.connect(self.click_sendOne)
         self.ui.sendCont.clicked.connect(self.click_sendCont)
@@ -127,6 +130,39 @@ class GrblForm(QtGui.QMainWindow):
         
         QtCore.QObject.connect(self.thread_sender, QtCore.SIGNAL("nextLine"), self.sent_threadSender)
         QtCore.QObject.connect(self.thread_processor, QtCore.SIGNAL("regen"), self.common_regenTerminal)
+        
+        self.ui.go_g00.clicked.connect(self.click_go_g00)
+        self.ui.go_g01.clicked.connect(self.click_go_g01)
+        
+        self.ui.go_g90.clicked.connect(self.click_go_g90)
+        self.ui.go_g91.clicked.connect(self.click_go_g91)
+        
+        self.ui.go_m03.clicked.connect(self.click_go_m03)
+        self.ui.go_m05.clicked.connect(self.click_go_m05)
+        
+        self.ui.go_m_x01.clicked.connect(self.click_go_m_x01)
+        self.ui.go_m_x1.clicked.connect(self.click_go_m_x1)
+        self.ui.go_m_x10.clicked.connect(self.click_go_m_x10)
+        
+        self.ui.go_m_y01.clicked.connect(self.click_go_m_y01)
+        self.ui.go_m_y1.clicked.connect(self.click_go_m_y1)
+        self.ui.go_m_y10.clicked.connect(self.click_go_m_y10)
+        
+        self.ui.go_m_z01.clicked.connect(self.click_go_m_z01)
+        self.ui.go_m_z1.clicked.connect(self.click_go_m_z1)
+        self.ui.go_m_z5.clicked.connect(self.click_go_m_z5)
+        
+        self.ui.go_p_x01.clicked.connect(self.click_go_p_x01)
+        self.ui.go_p_x1.clicked.connect(self.click_go_p_x1)
+        self.ui.go_p_x10.clicked.connect(self.click_go_p_x10)
+        
+        self.ui.go_p_y01.clicked.connect(self.click_go_p_y01)
+        self.ui.go_p_y1.clicked.connect(self.click_go_p_y1)
+        self.ui.go_p_y10.clicked.connect(self.click_go_p_y10)
+        
+        self.ui.go_p_z01.clicked.connect(self.click_go_p_z01)
+        self.ui.go_p_z1.clicked.connect(self.click_go_p_z1)
+        self.ui.go_p_z5.clicked.connect(self.click_go_p_z5)
         
     def gen_macList(self):
         ''' Generates either a serial port listing on Mac OS, or a 256 number range on other OS '''
@@ -151,7 +187,9 @@ class GrblForm(QtGui.QMainWindow):
  
     def common_regenTerminal(self):
         ''' Updates the terminal window '''
-        self.ui.termWindow.setHtml("<br>".join(self.termwindow_contents[-13:]))
+        self.ui.termWindow.setHtml("<br>".join(self.termwindow_contents[-40:]))
+        ''' Updates smaller term window '''
+        self.ui.termWindow_2.setHtml("<br>".join(self.termwindow_contents[-5:]))
 
     def common_regenContent(self): 
         ''' Updates the queue window '''
@@ -312,6 +350,63 @@ class GrblForm(QtGui.QMainWindow):
         baudSelector = self.ui.comboBox_2.currentText()
         self.common_connect(serialSelector,baudSelector)
 
+    def click_go_g00(self):
+        self.common_sendLine(message = 'G00', color = 'orange')
+    def click_go_g01(self):
+        self.common_sendLine(message = 'G01', color = 'orange')
+        
+    def click_go_g90(self):
+        self.common_sendLine(message = '90', color = 'orange')
+    def click_go_g91(self):
+        self.common_sendLine(message = 'G91', color = 'orange')
+        
+    def click_go_m03(self):
+        self.common_sendLine(message = 'M03', color = 'orange')
+    def click_go_m05(self):
+        self.common_sendLine(message = 'M05', color = 'orange')
+        
+    def click_go_m_x01(self):
+        self.common_sendLine(message = 'X-0.1', color = 'orange')
+    def click_go_m_x1(self):
+        self.common_sendLine(message = 'X-1', color = 'orange')
+    def click_go_m_x10(self):
+        self.common_sendLine(message = 'X-10', color = 'orange')
+        
+    def click_go_m_y01(self):
+        self.common_sendLine(message = 'Y-0.1', color = 'orange')
+    def click_go_m_y1(self):
+        self.common_sendLine(message = 'Y-1', color = 'orange')
+    def click_go_m_y10(self):
+        self.common_sendLine(message = 'Y-10', color = 'orange')
+        
+    def click_go_m_z01(self):
+        self.common_sendLine(message = 'Z-0.1', color = 'orange')
+    def click_go_m_z1(self):
+        self.common_sendLine(message = 'Z-1', color = 'orange')
+    def click_go_m_z5(self):
+        self.common_sendLine(message = 'Z-5', color = 'orange')
+        
+    def click_go_p_x01(self):
+        self.common_sendLine(message = 'X0.1', color = 'orange')
+    def click_go_p_x1(self):
+        self.common_sendLine(message = 'X1', color = 'orange')
+    def click_go_p_x10(self):
+        self.common_sendLine(message = 'X10', color = 'orange')
+        
+    def click_go_p_y01(self):
+        self.common_sendLine(message = 'Y0.1', color = 'orange')
+    def click_go_p_y1(self):
+        self.common_sendLine(message = 'Y1', color = 'orange')
+    def click_go_p_y10(self):
+        self.common_sendLine(message = 'Y10', color = 'orange')
+        
+    def click_go_p_z01(self):
+        self.common_sendLine(message = 'Z0.1', color = 'orange')
+    def click_go_p_z1(self):
+        self.common_sendLine(message = 'Z1', color = 'orange')
+    def click_go_p_z5(self):
+        self.common_sendLine(message = 'Z5', color = 'orange')
+
     def common_connect(self, serialPort, serialBaud, serialTimeout=0.01):
         ''' Connects to the serial port '''
         try:
@@ -322,6 +417,7 @@ class GrblForm(QtGui.QMainWindow):
             self.ui.comboBox.setDisabled(True)
             self.ui.comboBox_2.setDisabled(True)
             self.ui.tab.setDisabled(False)
+            self.ui.tab_4.setDisabled(False)
             self.ui.actionLoad_GCode.setDisabled(False)
             self.common_enableThread(self.thread_processor)
         except serial.SerialException:
@@ -342,6 +438,7 @@ class GrblForm(QtGui.QMainWindow):
             self.ui.actionLoad_GCode.setDisabled(True)
             self.ui.comboBox_2.setDisabled(False)
             self.ui.tab.setDisabled(True)
+            self.ui.tab_4.setDisabled(True)
             self.ui.disconnectButton.setDisabled(True)
         except None:
             pass
@@ -368,12 +465,16 @@ class GrblForm(QtGui.QMainWindow):
         uiobject.comboBox_2.addItems(baudRates)
         uiobject.comboBox_2.setCurrentIndex(5)
         uiobject.tab.setDisabled(True)
+        uiobject.tab_4.setDisabled(True)
+        uiobject.tabWidget.setCurrentIndex(0)
         self.setWindowIcon(QtGui.QIcon(self.directory+'icon_grblfeedr.png'))
         uiobject.termWindow.setHtml("")
+        uiobject.termWindow_2.setHtml("")
         res = QtGui.QDesktopWidget().screenGeometry()
         self.move((res.width() / 2) - (self.frameSize().width() / 2), (res.height() / 2) - (self.frameSize().height() / 2))
         
 if __name__ == "__main__":
+    ''' Starts the application '''
     app = QtGui.QApplication(sys.argv)
     grblapp = GrblForm()
     grblapp.show()
