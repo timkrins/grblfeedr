@@ -1,3 +1,6 @@
 *.psd
 *.pyc
+*.ttf
+olds/
+*.txt
 _pyuic.py
