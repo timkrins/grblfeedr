@@ -1,6 +1,7 @@
 *.psd
 *.pyc
 *.ttf
+*.TTF
 olds/
 *.txt
 _pyuic.py
