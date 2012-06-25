@@ -170,6 +170,10 @@ class GrblForm(QtGui.QMainWindow):
             devlist = os.listdir("/dev/")
             devs = ["/dev/"+filename for filename in devlist if 'cu.' in filename]
             return devs
+	elif(sys.platform == "linux2"):
+            devlist = os.listdir("/dev/")
+            devs = ["/dev/"+filename for filename in devlist if 'tty' in filename]
+            return devs
         else:
             return range(256)
         
