@@ -360,7 +360,7 @@ class GrblForm(QtGui.QMainWindow):
         self.common_sendLine(message = 'G01', color = 'orange')
         
     def click_go_g90(self):
-        self.common_sendLine(message = '90', color = 'orange')
+        self.common_sendLine(message = 'G90', color = 'orange')
     def click_go_g91(self):
         self.common_sendLine(message = 'G91', color = 'orange')
         
