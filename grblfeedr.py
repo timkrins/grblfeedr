@@ -35,7 +35,7 @@ class MultiSender(QtCore.QThread):
             if self.runner:
                 if(self.parent.got_okay):
                     self.parent.got_okay = False
-                    self.emit(QtCore.SIGNAL("nextLine"))
+                    self.emit(QtCore.SIGNAL("nextLine()"))
 
 class SerialProcessor(QtCore.QThread):
     ''' Serial input processing thread '''
@@ -80,7 +80,7 @@ class SerialProcessor(QtCore.QThread):
                         parent.common_termAdd(popnstrip, 'lime', italic=True, regen=False)
                     else:
                         parent.common_termAdd(popnstrip, regen=False)
-                    self.emit(QtCore.SIGNAL("regen"))
+                    self.emit(QtCore.SIGNAL("regen()"))
                 full_line = []
         return ""
             
@@ -128,8 +128,8 @@ class GrblForm(QtGui.QMainWindow):
         self.ui.disconnectButton.clicked.connect(self.click_disconnectButton) 
         self.ui.nextScreen.clicked.connect(self.click_nextScreen) 
         
-        QtCore.QObject.connect(self.thread_sender, QtCore.SIGNAL("nextLine"), self.sent_threadSender)
-        QtCore.QObject.connect(self.thread_processor, QtCore.SIGNAL("regen"), self.common_regenTerminal)
+        QtCore.QObject.connect(self.thread_sender, QtCore.SIGNAL("nextLine()"), self.sent_threadSender)
+        QtCore.QObject.connect(self.thread_processor, QtCore.SIGNAL("regen()"), self.common_regenTerminal)
         
         self.ui.go_g00.clicked.connect(self.click_go_g00)
         self.ui.go_g01.clicked.connect(self.click_go_g01)
